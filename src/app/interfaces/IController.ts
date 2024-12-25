@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface IRequest {
-  body: Record<string, any>;
-  params: Record<string, string>;
-  accountId: string | undefined;
-}
+import { IRequest } from "./IRequest";
 
 export interface IResponse {
   statusCode: number;

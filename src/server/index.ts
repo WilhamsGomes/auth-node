@@ -6,6 +6,7 @@ import { makeSignInController } from "../factories/makeSignInController";
 import { makeListLeadsController } from "../factories/makeListaLeadsController";
 import { makeAuthenticationMiddleware } from "../factories/makeAuthenticationMiddleware";
 import { middlewareAdapter } from "./adapters/middlewareAdapter";
+import { makeAuthorizationMiddleware } from "../factories/makeAuthorizationMiddleware";
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,15 @@ app.get(
   "/leads",
   middlewareAdapter(makeAuthenticationMiddleware()),
   routeAdapter(makeListLeadsController())
+);
+
+app.post(
+  "/leads",
+  middlewareAdapter(makeAuthenticationMiddleware()),
+  middlewareAdapter(makeAuthorizationMiddleware(["ADMIN"])),
+  async (req, res) => {
+    res.json({ created: true });
+  }
 );
 
 app.listen(3000, () => {
